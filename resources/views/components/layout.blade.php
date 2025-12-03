@@ -64,7 +64,7 @@
 
     <!-- Mobile Menu Script -->
     <script>
-        const navBtn = document.getElementById("navToggle");
+        const navBtn = document.getElementById("navTo   ggle");
         const mobileMenu = document.getElementById("mobileMenu");
         const navIcon = document.getElementById("navIcon");
 

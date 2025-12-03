@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-           $table->id();
+            $table->id();
             $table->string('name');
-            $table->integer('age')->nullable();
-            $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->string('email')->unique();
             $table->string('password');
+            $table->integer('age')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->timestamps();
         });
     }

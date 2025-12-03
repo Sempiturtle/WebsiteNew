@@ -1,30 +1,43 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
+// Redirect root to dashboard
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('dashboard');
 });
 
+// Registration & login
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'registerUser']);
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'LoginUser']);
 
-// Dashboard Route
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
-
-// CRUD Routes for Tasks
-Route::resource('tasks', TaskController::class)->middleware('auth');
-
-// Logout Route
-//Route::post('/logout', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');
+// Logout
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/login');
 })->name('logout');
+
+// Protected routes
+Route::middleware(['auth'])->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Tasks CRUD
+    Route::resource('tasks', TaskController::class);
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
+    // About
+    Route::get('/about', [AboutController::class, 'index'])->name('about');
+});
